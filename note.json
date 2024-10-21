@@ -1,0 +1,98 @@
+[
+  {
+    "word": "pristine",
+    "phonetic": "/prɪˈstin/",
+    "translation": "完整無暇的",
+    "definition": "完美無瑕,未被污染或損壞。",
+    "examples": [
+      {
+        "sentence": "The pristine beach was a breathtaking sight with its crystal-clear waters.",
+        "translation": "那片完整無暇的海灘風景怡人,水清澈見底。"
+      },
+      {
+        "sentence": "The museum carefully preserved the pristine condition of the ancient artifacts.",
+        "translation": "那家博物館小心翼翼地保存著那些古老文物的完整無暇的狀態。"
+      }
+    ]
+  },
+  {
+    "word": "eloquent",
+    "phonetic": "/ˈɛləkwənt/",
+    "translation": "雄辯的",
+    "definition": "能夠用優美流暢的語言表達思想和觀點。",
+    "examples": [
+      {
+        "sentence": "The speaker was an eloquent orator who captivated the audience.",
+        "translation": "這位演講者是一位雄辯的講話者,吸引了全場觀眾。"
+      },
+      {
+        "sentence": "Her writing is eloquent and poetic.",
+        "translation": "她的文字優美動人,富有詩意。"
+      }
+    ]
+  },
+  {
+    "word": "excerpt",
+    "phonetic": "/ˈɛksɜːpt/",
+    "translation": "節錄",
+    "definition": "摘錄或選錄自一部較長的作品的片段。",
+    "examples": [
+      {
+        "sentence": "The book includes excerpts from famous novels and poems.",
+        "translation": "這本書包含了來自著名小說和詩歌的節錄。"
+      },
+      {
+        "sentence": "Could you send me an excerpt from the report so I can get an idea of the contents?",
+        "translation": "你能給我發一份報告摘要嗎?這樣我就能大概了解內容了。"
+      }
+    ]
+  },
+  {
+    "word": "retrieve",
+    "phonetic": "/rɪˈtriːv/",
+    "translation": "取回",
+    "definition": "把某物拿回或尋回。",
+    "examples": [
+      {
+        "sentence": "I need to retrieve my luggage from the airport carousel.",
+        "translation": "我需要從機場的行李傳送帶上取回我的行李箱。"
+      },
+      {
+        "sentence": "The detective was able to retrieve valuable information from the witness.",
+        "translation": "偵探能從證人那裡取回有價值的信息。"
+      }
+    ]
+  },
+  {
+    "word": "accessible",
+    "phonetic": "/əkˈsɛsəbl/",
+    "translation": "易於使用的",
+    "definition": "可接近的、容易理解的、可獲得的。",
+    "examples": [
+      {
+        "sentence": "The new website is designed to be accessible for people with disabilities.",
+        "translation": "新網站的設計旨在讓殘障人士也能輕鬆使用。"
+      },
+      {
+        "sentence": "The professor's explanations are very accessible, even for complex topics.",
+        "translation": "即使是複雜的主題，教授的解釋也很容易理解。"
+      }
+    ]
+  },
+  {
+    "word": "Consensus",
+    "phonetic": "/kənˈsɛnsəs/",
+    "translation": "共識",
+    "definition": "普遍的看法或同意。",
+    "examples": [
+      {
+        "sentence": "The committee reached a consensus on the new policy after much debate.",
+        "translation": "經過長時間的辯論,委員會最終就新政策達成了共識。"
+      },
+      {
+        "sentence": "There is a growing consensus among scientists about the causes of climate change.",
+        "translation": "科學家們對於氣候變化的原因存在日益增長的共識。"
+      }
+    ]
+  }
+]
