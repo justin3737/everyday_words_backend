@@ -80,7 +80,7 @@ async function getRandomVocabulary() {
   請確保返回的是一個有效的JSON對象，包含一個名為"content"的數組，數組中的每個對象代表一個單詞及其相關信息。`;
 
   const response = await axios.post('https://api.anthropic.com/v1/messages', {
-    model: 'claude-3-sonnet-20240229',
+    model: 'claude-3-5-sonnet-20240620',
     messages: [{ role: 'user', content: prompt }],
     max_tokens: 1000,
   }, {

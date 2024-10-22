@@ -94,5 +94,37 @@
         "translation": "科學家們對於氣候變化的原因存在日益增長的共識。"
       }
     ]
+  },
+  {
+    "word": "compile",
+    "phonetic": "/kəmˈpaɪl/",
+    "translation": "編譯",
+    "definition": "收集並組織信息或資料。",
+    "examples": [
+      {
+        "sentence": "The team compiled a report on the company's financial performance.",
+        "translation": "團隊編製了一份關於公司財務業績的報告。"
+      },
+      {
+        "sentence": "The teacher compiled a list of recommended readings for the course.",
+        "translation": "老師為這門課程編纂了一份推薦閱讀清單。"
+      }
+    ]
+  },
+  {
+    "word": "glimpse",
+    "phonetic": "/ɡlɪmps/",
+    "translation": "一瞥",
+    "definition": "短暫看到或瞥見某物的一點一滴。",
+    "examples": [
+      {
+        "sentence": "Through the window, we caught a glimpse of the magnificent landscape.",
+        "translation": "透過窗戶,我們瞥見了那壯麗的風景。"
+      },
+      {
+        "sentence": "The movie offers a glimpse into the lives of the rich and famous.",
+        "translation": "這部電影提供了一瞥有錢人和名人的生活。"
+      }
+    ]
   }
 ]
