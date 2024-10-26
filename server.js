@@ -80,22 +80,19 @@ cron.schedule('0 * * * *', () => {
 app.get('/api/getB2vocabulary', async (req, res) => {
   try {
     const newVocabularyList = await getRandomVocabulary();
-    const updatedWords = [];
 
     for (const item of newVocabularyList.content) {
       const existingWord = await Vocabulary.findOne({ word: { $regex: new RegExp('^' + item.word + '$', 'i') } });
       if (!existingWord) {
         const newVocabulary = new Vocabulary(item);
-        await newVocabulary.save();
-        updatedWords.push(item);
+        await newVocabulary.save()
       }
     }
 
     const allVocabulary = await Vocabulary.find();
 
     res.json({ 
-      content: allVocabulary,
-      newWords: updatedWords
+      content: allVocabulary
     });
   } catch (error) {
     console.error('Error in getB2vocabulary:', error);
