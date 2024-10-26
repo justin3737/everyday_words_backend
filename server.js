@@ -5,6 +5,7 @@ require('dotenv').config();
 const fs = require('fs').promises;
 const path = require('path');
 const Anthropic = require('@anthropic-ai/sdk');
+const cron = require('node-cron');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -45,22 +46,34 @@ app.get('/api/vocabulary', async (req, res) => {
       vocabularyList = cache.get('vocabularyList');
       if (vocabularyList) {
         console.log('Serving from cache');
-        return res.json({ content: vocabularyList.content });
+        return res.json({ content: vocabularyList });
       }
     }
 
-    vocabularyList = await getRandomVocabulary();
+    // 讀取 b2vocabulary.json 文件
+    const b2VocabularyPath = path.join(__dirname, 'b2vocabulary.json');
+    const data = await fs.readFile(b2VocabularyPath, 'utf8');
+    const allVocabulary = JSON.parse(data).content;
+
+    // 隨機選擇 10 個單詞
+    vocabularyList = getRandomItems(allVocabulary, 10);
     
     if (ENABLE_CACHE) {
       cache.set('vocabularyList', vocabularyList);
     }
 
-    res.json({ content: vocabularyList.content });
+    res.json({ content: vocabularyList });
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// 輔助函數：從數組中隨機選擇指定數量的項目
+function getRandomItems(array, count) {
+  const shuffled = array.sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+}
 
 async function getRandomVocabulary() {
   const prompt = `請提供5個隨機的B2級別英語單詞，並為每個單詞提供以下信息：
@@ -197,6 +210,65 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
+// 修改 getB2vocabulary 函數
+async function getB2vocabulary() {
+  try {
+    const b2VocabularyPath = path.join(__dirname, 'b2vocabulary.json');
+    let existingVocabulary = { content: [] };
+
+    // 嘗試讀取現有的 b2vocabulary.json 文件
+    try {
+      const existingData = await fs.readFile(b2VocabularyPath, 'utf8');
+      existingVocabulary = JSON.parse(existingData);
+    } catch (readError) {
+      if (readError.code !== 'ENOENT') {
+        console.error('Error reading existing B2 vocabulary:', readError);
+      }
+    }
+
+    const existingWords = new Set(existingVocabulary.content.map(item => item.word.toLowerCase()));
+
+    const newVocabularyList = await getRandomVocabulary();
+    
+    for (const item of newVocabularyList.content) {
+      if (!existingWords.has(item.word.toLowerCase())) {
+        existingVocabulary.content.push(item);
+        existingWords.add(item.word.toLowerCase());
+      }
+    }
+
+    await fs.writeFile(b2VocabularyPath, JSON.stringify(existingVocabulary, null, 2));
+    console.log('B2 vocabulary updated successfully');
+  } catch (error) {
+    console.error('Error updating B2 vocabulary:', error);
+  }
+}
+
+// 設置定時任務，每小時執行一次
+cron.schedule('0 * * * *', () => {
+  console.log('Running B2 vocabulary update task');
+  getB2vocabulary();
+});
+
+// 新增 getB2vocabulary API
+app.get('/api/getB2vocabulary', async (req, res) => {
+  try {
+    const b2VocabularyPath = path.join(__dirname, 'b2vocabulary.json');
+    const data = await fs.readFile(b2VocabularyPath, 'utf8');
+    const vocabularyList = JSON.parse(data);
+    res.json(vocabularyList);
+  } catch (error) {
+    console.error('Error reading B2 vocabulary:', error);
+    if (error.code === 'ENOENT') {
+      res.status(404).json({ error: 'B2 vocabulary file not found' });
+    } else {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+  // 服務器啟動時立即執行一次更新任務
+  getB2vocabulary();
 });

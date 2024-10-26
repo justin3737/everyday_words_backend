@@ -1,0 +1,292 @@
+{
+  "content": [
+    {
+      "word": "advocate",
+      "phonetic": "/ˈædvəkeɪt/",
+      "translation": "倡导者",
+      "definition": "支持或維護某種理念、事業或觀點的人。",
+      "examples": [
+        {
+          "sentence": "She is a strong advocate of animal rights.",
+          "translation": "她是一名堅定的動物權利倡導者。"
+        },
+        {
+          "sentence": "He advocates for stricter environmental regulations.",
+          "translation": "他倡導實施更嚴格的環境法規。"
+        }
+      ]
+    },
+    {
+      "word": "contemporary",
+      "phonetic": "/kənˈtɛmpərɛri/",
+      "translation": "當代的",
+      "definition": "屬於同一時期的,現代的。",
+      "examples": [
+        {
+          "sentence": "She is one of the most renowned contemporary artists.",
+          "translation": "她是最著名的當代藝術家之一。"
+        },
+        {
+          "sentence": "The exhibition features works by contemporary Chinese painters.",
+          "translation": "這個展覽展出了當代中國畫家的作品。"
+        }
+      ]
+    },
+    {
+      "word": "elusive",
+      "phonetic": "/ɪˈlusɪv/",
+      "translation": "難以捉摸的",
+      "definition": "難以理解或抓住的。",
+      "examples": [
+        {
+          "sentence": "Happiness is an elusive concept that means different things to different people.",
+          "translation": "幸福是一個難以捉摸的概念,對不同的人有不同的含義。"
+        },
+        {
+          "sentence": "The criminal has managed to remain elusive, evading the police for years.",
+          "translation": "這名罪犯一直難以捕捉,多年來一直逃避警方的追捕。"
+        }
+      ]
+    },
+    {
+      "word": "profound",
+      "phonetic": "/prəˈfaʊnd/",
+      "translation": "深刻的",
+      "definition": "極其重要的,對於某方面有深入理解的。",
+      "examples": [
+        {
+          "sentence": "The philosopher's words had a profound effect on his students.",
+          "translation": "這位哲學家的話對他的學生產生了深刻的影響。"
+        },
+        {
+          "sentence": "She has a profound knowledge of classical literature.",
+          "translation": "她對古典文學有深刻的理解。"
+        }
+      ]
+    },
+    {
+      "word": "resilient",
+      "phonetic": "/rɪˈzɪliənt/",
+      "translation": "有彈性的",
+      "definition": "能夠很快從失敗、疾病或其他不利情況中恢復過來的。",
+      "examples": [
+        {
+          "sentence": "She is a resilient person who bounces back from setbacks quickly.",
+          "translation": "她是一個有彈性的人,能夠迅速從挫折中恢復過來。"
+        },
+        {
+          "sentence": "The city's economy has proven to be resilient in the face of economic downturns.",
+          "translation": "這座城市的經濟在經濟下滑時表現出了彈性。"
+        }
+      ]
+    },
+    {
+      "word": "commence",
+      "phonetic": "/kəˈmɛns/",
+      "translation": "開始",
+      "definition": "展開、著手做某事。",
+      "examples": [
+        {
+          "sentence": "The ceremony will commence at 10 o'clock.",
+          "translation": "儀式將於10點鐘開始。"
+        },
+        {
+          "sentence": "Students can commence their studies after enrolling.",
+          "translation": "學生在註冊後便可開始學習。"
+        }
+      ]
+    },
+    {
+      "word": "diverse",
+      "phonetic": "/daɪˈvɝs/",
+      "translation": "多種多樣的",
+      "definition": "由許多不同種類的事物組成的。",
+      "examples": [
+        {
+          "sentence": "The city has a diverse population with people from many cultures.",
+          "translation": "這個城市有來自許多文化背景的多元人口。"
+        },
+        {
+          "sentence": "The company offers a diverse range of products to meet different needs.",
+          "translation": "該公司提供多種多樣的產品以滿足不同需求。"
+        }
+      ]
+    },
+    {
+      "word": "facilitate",
+      "phonetic": "/fəˈsɪləˌteɪt/",
+      "translation": "促進、便利",
+      "definition": "使某事容易發生或更簡單。",
+      "examples": [
+        {
+          "sentence": "The new software will facilitate communication between teams.",
+          "translation": "新軟件將促進團隊之間的溝通。"
+        },
+        {
+          "sentence": "The government should facilitate economic growth through policies.",
+          "translation": "政府應通過政策來促進經濟增長。"
+        }
+      ]
+    },
+    {
+      "word": "heritage",
+      "phonetic": "/ˈhɛrɪtɪdʒ/",
+      "translation": "遺產、傳統",
+      "definition": "從過去inherited的文化、傳統或知識。",
+      "examples": [
+        {
+          "sentence": "This museum preserves the rich cultural heritage of the region.",
+          "translation": "這個博物館保存了該地區豐富的文化傳統。"
+        },
+        {
+          "sentence": "She is proud of her family's heritage and values.",
+          "translation": "她為自己家族的傳統和價值觀感到自豪。"
+        }
+      ]
+    },
+    {
+      "word": "perceive",
+      "phonetic": "/pərˈsiv/",
+      "translation": "感知、認識到",
+      "definition": "通過感官或心智了解某事物。",
+      "examples": [
+        {
+          "sentence": "I perceive a change in her attitude towards work.",
+          "translation": "我感知到她對工作的態度有所改變。"
+        },
+        {
+          "sentence": "The company is perceived as innovative by consumers.",
+          "translation": "該公司在消費者眼中被視為創新型企業。"
+        }
+      ]
+    },
+    {
+      "word": "ambiguous",
+      "phonetic": "/æmˈbɪɡjʊəs/",
+      "translation": "含糊不清的",
+      "definition": "含有多種含義、模棱兩可的。",
+      "examples": [
+        {
+          "sentence": "The politician's statement was ambiguous and left room for interpretation.",
+          "translation": "政治家的聲明含糊不清,留有解釋的餘地。"
+        },
+        {
+          "sentence": "The instructions were ambiguous, causing confusion among the students.",
+          "translation": "說明書含糊不清,導致學生們感到困惑。"
+        }
+      ]
+    },
+    {
+      "word": "cumbersome",
+      "phonetic": "/ˈkʌmbərsəm/",
+      "translation": "笨重的",
+      "definition": "笨重、麻煩、使人覺得沉重和困難的。",
+      "examples": [
+        {
+          "sentence": "The cumbersome bureaucracy slowed down the process of getting the permit.",
+          "translation": "笨重的官僚作風拖慢了獲得許可證的過程。"
+        },
+        {
+          "sentence": "The cumbersome baggage made it difficult for them to navigate through the crowded airport.",
+          "translation": "笨重的行李使他們很難在擁擠的機場裡穿行。"
+        }
+      ]
+    },
+    {
+      "word": "euphoria",
+      "phonetic": "/juːˈfɔːrɪə/",
+      "translation": "狂喜",
+      "definition": "一種極度高興和快樂的心理狀態。",
+      "examples": [
+        {
+          "sentence": "The team was in a state of euphoria after winning the championship.",
+          "translation": "贏得錦標賽後,球隊處於狂喜狀態。"
+        },
+        {
+          "sentence": "The euphoria of getting a new job quickly faded when she realized the workload.",
+          "translation": "獲得新工作的狂喜很快就消失了,當她意識到工作量時。"
+        }
+      ]
+    },
+    {
+      "word": "inadvertent",
+      "phonetic": "/ˌɪnədˈvɜːrtnt/",
+      "translation": "故意的",
+      "definition": "非有意的、非故意造成的。",
+      "examples": [
+        {
+          "sentence": "The server's inadvertent mistake caused a delay in serving the customers.",
+          "translation": "服務員的無心失誤導致了為客人服務的延誤。"
+        },
+        {
+          "sentence": "The politician claimed that the leak of confidential information was inadvertent.",
+          "translation": "政治家聲稱洩露機密信息是無心之過。"
+        }
+      ]
+    },
+    {
+      "word": "commodity",
+      "phonetic": "/kəˈmɑdɪti/",
+      "translation": "商品",
+      "definition": "可買賣的有價值的物品，尤指原材料或農產品。",
+      "examples": [
+        {
+          "sentence": "Oil is a valuable commodity in the global market.",
+          "translation": "石油在全球市場上是一種寶貴的商品。"
+        },
+        {
+          "sentence": "Coffee is one of the most traded commodities in the world.",
+          "translation": "咖啡是世界上最常見的商品之一。"
+        }
+      ]
+    },
+    {
+      "word": "conventional",
+      "phonetic": "/kənˈvɛnʃənl/",
+      "translation": "常規的",
+      "definition": "符合一般習俗或方式的,傳統的。",
+      "examples": [
+        {
+          "sentence": "She prefers conventional methods of teaching over modern techniques.",
+          "translation": "她更喜歡使用傳統的教學方法,而不是現代技術。"
+        },
+        {
+          "sentence": "The couple had a conventional wedding ceremony.",
+          "translation": "這對夫婦舉行了一場傳統的婚禮。"
+        }
+      ]
+    },
+    {
+      "word": "deliberate",
+      "phonetic": "/dɪˈlɪbəreɪt/",
+      "translation": "謹慎的",
+      "definition": "經過深思熟慮的,有意識的。",
+      "examples": [
+        {
+          "sentence": "He made a deliberate effort to improve his English skills.",
+          "translation": "他有意識地努力提高自己的英語水平。"
+        },
+        {
+          "sentence": "The deliberate act of vandalism angered the community.",
+          "translation": "這種蓄意破壞行為激怒了整個社區。"
+        }
+      ]
+    },
+    {
+      "word": "intricate",
+      "phonetic": "/ˈɪntrɪkɪt/",
+      "translation": "錯綜複雜的",
+      "definition": "結構複雜精細的,細節眾多的。",
+      "examples": [
+        {
+          "sentence": "The intricate design of the rug impressed the visitors.",
+          "translation": "這地毯錯綜複雜的設計令參觀者印象深刻。"
+        },
+        {
+          "sentence": "The plot of the novel was intricate and hard to follow.",
+          "translation": "這部小說的情節錯綜複雜,難以理解。"
+        }
+      ]
+    }
+  ]
+}
