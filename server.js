@@ -15,13 +15,6 @@ app.use(cors());
 
 app.use(express.json());
 
-// 添加緩存
-const NodeCache = require('node-cache');
-const cache = new NodeCache({ stdTTL: 3600 }); // 緩存1小時
-
-// 控制是否啟用緩存的變數
-const ENABLE_CACHE = process.env.ENABLE_CACHE === 'true';
-
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY // 替換成您的 API 金鑰
 });

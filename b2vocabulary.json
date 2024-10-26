@@ -431,6 +431,86 @@
           "translation": "在當今社會中,環境問題是最重要的。"
         }
       ]
+    },
+    {
+      "word": "abound",
+      "phonetic": "/əˈbaʊnd/",
+      "translation": "充裕、大量存在",
+      "definition": "有大量存在或充裕。",
+      "examples": [
+        {
+          "sentence": "This area abounds with wildlife.",
+          "translation": "這個地區野生動物非常多。"
+        },
+        {
+          "sentence": "The market abounds with fresh produce.",
+          "translation": "市場上新鮮農產品非常充足。"
+        }
+      ]
+    },
+    {
+      "word": "affluent",
+      "phonetic": "/ˈæflʊənt/",
+      "translation": "富裕的",
+      "definition": "擁有大量金錢、財富或資源。",
+      "examples": [
+        {
+          "sentence": "They live in an affluent neighborhood.",
+          "translation": "他們住在一個富裕的社區。"
+        },
+        {
+          "sentence": "The affluent family donated generously to charity.",
+          "translation": "那個富有的家庭慷慨捐助了慈善事業。"
+        }
+      ]
+    },
+    {
+      "word": "agile",
+      "phonetic": "/ˈædʒəl/",
+      "translation": "敏捷的、靈活的",
+      "definition": "能夠快速行動或思考的。",
+      "examples": [
+        {
+          "sentence": "The agile dancer moved gracefully across the stage.",
+          "translation": "敏捷的舞者在舞台上優雅地移動。"
+        },
+        {
+          "sentence": "Successful companies must be agile and adapt quickly to changes.",
+          "translation": "成功的公司必須敏捷靈活,快速適應變化。"
+        }
+      ]
+    },
+    {
+      "word": "albeit",
+      "phonetic": "/ɔːlˈbiːɪt/",
+      "translation": "雖然、盡管",
+      "definition": "用於承認或允許某事情,但表示與此相反的情況。",
+      "examples": [
+        {
+          "sentence": "The movie was entertaining, albeit a bit too long.",
+          "translation": "這部電影很有趣,不過有點太長了。"
+        },
+        {
+          "sentence": "She is a talented artist, albeit self-taught.",
+          "translation": "她是一位有才華的藝術家,雖然是自學成才。"
+        }
+      ]
+    },
+    {
+      "word": "amenity",
+      "phonetic": "/əˈmeniːti/",
+      "translation": "設施、舒適設備",
+      "definition": "增加舒適或方便的某種東西,如住宅或度假勝地的設施。",
+      "examples": [
+        {
+          "sentence": "The new apartment complex offers many amenities, such as a gym and a swimming pool.",
+          "translation": "這個新的公寓樓提供了許多設施,如健身房和游泳池。"
+        },
+        {
+          "sentence": "Luxury hotels are expected to provide top-notch amenities for their guests.",
+          "translation": "豪華酒店應為客人提供一流的住宿設施。"
+        }
+      ]
     }
   ]
 }
