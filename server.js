@@ -1,11 +1,12 @@
 const express = require('express');
-const axios = require('axios');
 const cors = require('cors');
 require('dotenv').config();
-const fs = require('fs').promises;
 const path = require('path');
 const Anthropic = require('@anthropic-ai/sdk');
 const cron = require('node-cron');
+const mongoose = require('mongoose');
+const VocabularyModel = require('./models/Vocabulary');
+const NoteModel = require('./models/Note'); 
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -15,8 +16,19 @@ app.use(cors());
 
 app.use(express.json());
 
+// MongoDB 連接
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+});
+
+// 使用導入的模型，而不是重新定義
+const Vocabulary = VocabularyModel;
+
 const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY // 替換成您的 API 金鑰
+  apiKey: process.env.ANTHROPIC_API_KEY
 });
 
 async function callAnthropicAPI(prompt) {
@@ -33,28 +45,9 @@ async function callAnthropicAPI(prompt) {
 /* 隨機單字 */
 app.get('/api/vocabulary', async (req, res) => {
   try {
-    let vocabularyList;
-    
-    if (ENABLE_CACHE) {
-      vocabularyList = cache.get('vocabularyList');
-      if (vocabularyList) {
-        console.log('Serving from cache');
-        return res.json({ content: vocabularyList });
-      }
-    }
-
-    // 讀取 b2vocabulary.json 文件
-    const b2VocabularyPath = path.join(__dirname, 'b2vocabulary.json');
-    const data = await fs.readFile(b2VocabularyPath, 'utf8');
-    const allVocabulary = JSON.parse(data).content;
-
-    // 隨機選擇 10 個單詞
-    vocabularyList = getRandomItems(allVocabulary, 10);
-    
-    if (ENABLE_CACHE) {
-      cache.set('vocabularyList', vocabularyList);
-    }
-
+    const count = await Vocabulary.countDocuments();
+    const random = Math.floor(Math.random() * count);
+    const vocabularyList = await Vocabulary.find().skip(random).limit(10);
     res.json({ content: vocabularyList });
   } catch (error) {
     console.error('Error:', error);
@@ -130,19 +123,14 @@ app.post('/api/addNote', async (req, res) => {
       return res.status(400).json({ error: 'Invalid note data' });
     }
 
-    const notesPath = path.join(__dirname, 'note.json');
-    const notes = await fs.readFile(notesPath, 'utf8').then(JSON.parse).catch(() => []);
-
-    const existingNote = notes.find(note => note.word.toLowerCase() === noteData.word.toLowerCase());
+    // 檢查 word 是否已存在
+    const existingNote = await NoteModel.findOne({ word: noteData.word });
     if (existingNote) {
-      return res.status(409).json({ 
-        error: 'Word already exists', 
-        existingNote: existingNote 
-      });
+      return res.status(409).json({ error: '已加入過筆記' });
     }
 
-    notes.push(noteData);
-    await fs.writeFile(notesPath, JSON.stringify(notes, null, 2));
+    const newNote = new NoteModel(noteData);
+    await newNote.save();
 
     res.status(201).json({ message: 'Note added successfully' });
   } catch (error) {
@@ -167,14 +155,10 @@ function isValidNoteData(data) {
   );
 }
 
-// 新增 getNotes API
+// 修改 getNotes API
 app.get('/api/notes', async (req, res) => {
   try {
-    // 讀取 note.json 文件
-    const data = await fs.readFile(path.join(__dirname, 'note.json'), 'utf8');
-    const notes = JSON.parse(data);
-
-    // 將數據格式化為指定的 Result 格式
+    const notes = await NoteModel.find();  // 使用NoteModel
     const result = {
       content: notes.map(note => ({
         word: note.word,
@@ -184,16 +168,10 @@ app.get('/api/notes', async (req, res) => {
         examples: note.examples
       }))
     };
-
     res.json(result);
   } catch (error) {
     console.error('Error reading notes:', error);
-    if (error.code === 'ENOENT') {
-      // 如果文件不存在，返回空的結果
-      res.json({ content: [] });
-    } else {
-      res.status(500).json({ error: 'Internal server error' });
-    }
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -203,34 +181,19 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-// 修改 getB2vocabulary 函數
+// getB2vocabulary 函數
 async function getB2vocabulary() {
   try {
-    const b2VocabularyPath = path.join(__dirname, 'b2vocabulary.json');
-    let existingVocabulary = { content: [] };
-
-    // 嘗試讀取現有的 b2vocabulary.json 文件
-    try {
-      const existingData = await fs.readFile(b2VocabularyPath, 'utf8');
-      existingVocabulary = JSON.parse(existingData);
-    } catch (readError) {
-      if (readError.code !== 'ENOENT') {
-        console.error('Error reading existing B2 vocabulary:', readError);
-      }
-    }
-
-    const existingWords = new Set(existingVocabulary.content.map(item => item.word.toLowerCase()));
-
     const newVocabularyList = await getRandomVocabulary();
     
     for (const item of newVocabularyList.content) {
-      if (!existingWords.has(item.word.toLowerCase())) {
-        existingVocabulary.content.push(item);
-        existingWords.add(item.word.toLowerCase());
+      const existingWord = await Vocabulary.findOne({ word: { $regex: new RegExp('^' + item.word + '$', 'i') } });
+      if (!existingWord) {
+        const newVocabulary = new Vocabulary(item);
+        await newVocabulary.save();
       }
     }
 
-    await fs.writeFile(b2VocabularyPath, JSON.stringify(existingVocabulary, null, 2));
     console.log('B2 vocabulary updated successfully');
   } catch (error) {
     console.error('Error updating B2 vocabulary:', error);
@@ -243,20 +206,14 @@ cron.schedule('0 * * * *', () => {
   getB2vocabulary();
 });
 
-// 新增 getB2vocabulary API
+// 修改 getB2vocabulary API
 app.get('/api/getB2vocabulary', async (req, res) => {
   try {
-    const b2VocabularyPath = path.join(__dirname, 'b2vocabulary.json');
-    const data = await fs.readFile(b2VocabularyPath, 'utf8');
-    const vocabularyList = JSON.parse(data);
-    res.json(vocabularyList);
+    const vocabularyList = await Vocabulary.find();
+    res.json({ content: vocabularyList });
   } catch (error) {
     console.error('Error reading B2 vocabulary:', error);
-    if (error.code === 'ENOENT') {
-      res.status(404).json({ error: 'B2 vocabulary file not found' });
-    } else {
-      res.status(500).json({ error: 'Internal server error' });
-    }
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
