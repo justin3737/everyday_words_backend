@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 const fs = require('fs').promises;
 const path = require('path');
+const Anthropic = require('@anthropic-ai/sdk');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,7 +19,22 @@ const NodeCache = require('node-cache');
 const cache = new NodeCache({ stdTTL: 3600 }); // 緩存1小時
 
 // 控制是否啟用緩存的變數
-const ENABLE_CACHE = true;
+const ENABLE_CACHE = process.env.ENABLE_CACHE === 'true';
+
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY // 替換成您的 API 金鑰
+});
+
+async function callAnthropicAPI(prompt) {
+  const response = await anthropic.beta.messages.create({
+    model: 'claude-3-sonnet-20240229',
+    max_tokens: 1000,
+    messages: [{ role: 'user', content: prompt }],
+    stream: false
+  });
+
+  return response.content[0].text;
+}
 
 /* 隨機單字 */
 app.get('/api/vocabulary', async (req, res) => {
@@ -79,20 +95,7 @@ async function getRandomVocabulary() {
   }
   請確保返回的是一個有效的JSON對象，包含一個名為"content"的數組，數組中的每個對象代表一個單詞及其相關信息。`;
 
-  const response = await axios.post('https://api.anthropic.com/v1/messages', {
-    model: 'claude-3-5-sonnet-20240620',
-    messages: [{ role: 'user', content: prompt }],
-    max_tokens: 1000,
-  }, {
-    headers: {
-      'x-api-key': process.env.ANTHROPIC_API_KEY,
-      'Content-Type': 'application/json',
-      'anthropic-version': '2023-06-01'
-    },
-    timeout: 30000,
-  });
-
-  const result = response.data.content[0].text;
+  const result = await callAnthropicAPI(prompt);
 
   try {
     // 清理結果
@@ -117,24 +120,13 @@ async function getRandomVocabulary() {
 app.post('/api/addNote', async (req, res) => {
   try {
     const noteData = req.body;
-    // 驗證請求數據
     if (!isValidNoteData(noteData)) {
       return res.status(400).json({ error: 'Invalid note data' });
     }
 
-    // 讀取現有的 note.json 文件
-    let notes = [];
-    try {
-      const data = await fs.readFile(path.join(__dirname, 'note.json'), 'utf8');
-      notes = JSON.parse(data);
-    } catch (error) {
-      // 如果文件不存在或為空，則使用空數組
-      if (error.code !== 'ENOENT') {
-        throw error;
-      }
-    }
+    const notesPath = path.join(__dirname, 'note.json');
+    const notes = await fs.readFile(notesPath, 'utf8').then(JSON.parse).catch(() => []);
 
-    // 檢查單字是否已存在
     const existingNote = notes.find(note => note.word.toLowerCase() === noteData.word.toLowerCase());
     if (existingNote) {
       return res.status(409).json({ 
@@ -143,11 +135,8 @@ app.post('/api/addNote', async (req, res) => {
       });
     }
 
-    // 添加新的筆記
     notes.push(noteData);
-
-    // 將更新後的筆記寫回文件
-    await fs.writeFile(path.join(__dirname, 'note.json'), JSON.stringify(notes, null, 2));
+    await fs.writeFile(notesPath, JSON.stringify(notes, null, 2));
 
     res.status(201).json({ message: 'Note added successfully' });
   } catch (error) {
