@@ -287,6 +287,150 @@
           "translation": "這部小說的情節錯綜複雜,難以理解。"
         }
       ]
+    },
+    {
+      "word": "viable",
+      "phonetic": "/ˈvaɪəbəl/",
+      "translation": "可行的",
+      "definition": "足以生存或繼續下去的。",
+      "examples": [
+        {
+          "sentence": "The company is still viable despite the recent setbacks.",
+          "translation": "儘管最近遇到了一些挫折,但公司仍然還是可行的。"
+        },
+        {
+          "sentence": "They are looking for a viable solution to the housing crisis.",
+          "translation": "他們正在尋找一個可行的解決住房危機的方案。"
+        }
+      ]
+    },
+    {
+      "word": "consensus",
+      "phonetic": "/kənˈsɛnsəs/",
+      "translation": "共識",
+      "definition": "大多數人所同意的意見。",
+      "examples": [
+        {
+          "sentence": "There is no consensus on how to tackle climate change.",
+          "translation": "關於如何應對氣候變化,目前還沒有達成共識。"
+        },
+        {
+          "sentence": "The committee failed to reach a consensus on the proposed changes.",
+          "translation": "委員會未能就擬議的變更達成共識。"
+        }
+      ]
+    },
+    {
+      "word": "trivial",
+      "phonetic": "/ˈtrɪviəl/",
+      "translation": "瑣碎的",
+      "definition": "不重要的、微不足道的。",
+      "examples": [
+        {
+          "sentence": "The problem seemed trivial at first, but it turned out to be more serious.",
+          "translation": "這個問題一開始看似微不足道,但後來卻被證明是相當嚴重的。"
+        },
+        {
+          "sentence": "He doesn't want to waste time on trivial matters.",
+          "translation": "他不想在瑣碎的事情上浪費時間。"
+        }
+      ]
+    },
+    {
+      "word": "reluctant",
+      "phonetic": "/rɪˈlʌktənt/",
+      "translation": "猶豫的",
+      "definition": "由於疑慮或不情願而不願意做某事的。",
+      "examples": [
+        {
+          "sentence": "She was reluctant to accept the job offer initially.",
+          "translation": "一開始她對是否接受這份工作很猶豫。"
+        },
+        {
+          "sentence": "Many parents are reluctant to let their children use social media.",
+          "translation": "許多父母都不太願意讓自己的孩子使用社交媒體。"
+        }
+      ]
+    },
+    {
+      "word": "notion",
+      "phonetic": "/ˈnoʊʃən/",
+      "translation": "概念",
+      "definition": "對某事物的想法或觀念。",
+      "examples": [
+        {
+          "sentence": "She had a vague notion of what was expected of her.",
+          "translation": "她對自己應該做什麼有一個模糊的概念。"
+        },
+        {
+          "sentence": "The notion of time travel has fascinated people for centuries.",
+          "translation": "時空旅行的概念已經吸引著人們幾個世紀了。"
+        }
+      ]
+    },
+    {
+      "word": "comprehend",
+      "phonetic": "/ˌkɒmprɪˈhɛnd/",
+      "translation": "理解",
+      "definition": "完全明白某事物的含義或意義。",
+      "examples": [
+        {
+          "sentence": "I'm having trouble comprehending the instructions for this new software.",
+          "translation": "我在理解這款新軟件的使用說明時遇到了困難。"
+        },
+        {
+          "sentence": "It takes time to fully comprehend the complexities of human behavior.",
+          "translation": "要完全理解人類行為的複雜性需要時間。"
+        }
+      ]
+    },
+    {
+      "word": "eloquent",
+      "phonetic": "/ˈɛləkwənt/",
+      "translation": "有口才的",
+      "definition": "能夠以優美動聽的言語表達思想的。",
+      "examples": [
+        {
+          "sentence": "The professor's eloquent speech captivated the audience.",
+          "translation": "教授富有口才的演講吸引了全場。"
+        },
+        {
+          "sentence": "Her eloquent writing style makes the novel a pleasure to read.",
+          "translation": "她優美動聽的筆觸使這部小說讀起來很享受。"
+        }
+      ]
+    },
+    {
+      "word": "tentative",
+      "phonetic": "/ˈtɛntətɪv/",
+      "translation": "試驗性的",
+      "definition": "暫時的,不確定的,有保留的。",
+      "examples": [
+        {
+          "sentence": "The scientists made a tentative conclusion based on their initial findings.",
+          "translation": "科學家根據初步發現得出了一個試驗性的結論。"
+        },
+        {
+          "sentence": "She gave a tentative nod, unsure of how to respond.",
+          "translation": "她試探性地點了點頭,不確定該如何回應。"
+        }
+      ]
+    },
+    {
+      "word": "paramount",
+      "phonetic": "/ˈpærəmaʊnt/",
+      "translation": "最重要的",
+      "definition": "最為重要的,居於首位的。",
+      "examples": [
+        {
+          "sentence": "Ensuring the safety of the passengers is of paramount importance.",
+          "translation": "確保乘客安全是最重要的。"
+        },
+        {
+          "sentence": "Environmental concerns are paramount in today's society.",
+          "translation": "在當今社會中,環境問題是最重要的。"
+        }
+      ]
     }
   ]
 }
