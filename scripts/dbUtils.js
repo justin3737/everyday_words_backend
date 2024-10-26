@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 // 連接到 MongoDB
 exports.connectToMongoDB = async (mongoURL) => {
-  await mongoose.connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true });
+  await mongoose.connect(mongoURL);
   console.log('Connected to MongoDB');
 };
 
