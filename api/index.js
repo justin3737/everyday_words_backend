@@ -36,53 +36,6 @@ app.get('/api/debug', (req, res) => {
   });
 });
 
-// 修改資料庫連接邏輯
-const connectDB = async () => {
-  try {
-    console.log('正在嘗試連接到 MongoDB...');
-    console.log('環境變數狀態:', {
-      hasUri: !!process.env.MONGODB_URI,
-      nodeEnv: process.env.NODE_ENV
-    });
-
-    if (!process.env.MONGODB_URI) {
-      throw new Error('MONGODB_URI 環境變數未設置');
-    }
-
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log('MongoDB 連接成功');
-  } catch (error) {
-    console.error('MongoDB 連接失敗:', error.message);
-    throw error;
-  }
-};
-
-const startServer = async () => {
-  try {
-    await connectDB();
-    
-    // 其他路由設置...
-    
-    if (process.env.VERCEL) {
-      console.log('在 Vercel 環境中運行');
-      module.exports = app;
-    } else {
-      const PORT = process.env.PORT || 3000;
-      app.listen(PORT, () => {
-        console.log(`服務器運行在端口 ${PORT}`);
-      });
-    }
-  } catch (error) {
-    console.error('服務器啟動錯誤:', error);
-    // 在 Vercel 環境中，我們可能不想立即退出
-    if (!process.env.VERCEL) {
-      process.exit(1);
-    }
-  }
-};
-
-startServer();
-
 // 取得單字 from MongoDB
 app.get('/api/vocabulary', async (req, res) => {
   try {
