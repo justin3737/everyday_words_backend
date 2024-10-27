@@ -1,4 +1,9 @@
- # 數據導入腳本
+# 如何使用此 repository：
+- 請搭配 https://github.com/justin3737/everyday_words/
+- 本地端測試 分支請使用 dev
+- 請先在 https://github.com/justin3737/everyday_words/ 設定好環境變量
+
+## 數據導入腳本
 
 這個項目包含了兩個數據導入腳本，用於將筆記和詞彙數據導入到 MongoDB 數據庫中。
 
