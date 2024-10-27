@@ -36,8 +36,8 @@ app.get('/api/debug', (req, res) => {
   });
 });
 
-// 取得單字 from MongoDB
-app.get('/api/vocabulary', async (req, res) => {
+// 隨機取得單字 from MongoDB
+app.get('/api/randomVocabulary', async (req, res) => {
   try {
     const vocabularyList = await getRandomVocabularyFromDB();
     res.json({ content: vocabularyList });
