@@ -3,12 +3,11 @@ const cors = require('cors');
 require('dotenv').config();
 
 const cron = require('node-cron');
-const { getRandomVocabulary, getB2vocabulary, getRandomVocabularyFromDB } = require('./services/vocabularyService');
-const { addNote, getNotes } = require('./services/noteService');  // 新增這行
+const { getRandomVocabulary, getB2vocabulary, getRandomVocabularyFromDB } = require('../services/vocabularyService');
+const { addNote, getNotes } = require('../services/noteService');  // 新增這行
 
-const VocabularyModel = require('./models/Vocabulary');
-const NoteModel = require('./models/Note'); 
-const connectDB = require('./db');  // 新增這行
+const VocabularyModel = require('../models/Vocabulary');
+const connectDB = require('../db');  // 新增這行
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -105,3 +104,5 @@ app.listen(port, () => {
   // 服務器啟動時立即執行一次更新任務
   getB2vocabulary();
 });
+
+module.exports = app;
