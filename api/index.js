@@ -23,6 +23,12 @@ connectDB();
 // 使用導入的模型，而不是重新定義
 const Vocabulary = VocabularyModel;
 
+// 路由設置
+app.get('/api/hello', (req, res) => {
+  res.json({ message: 'Hello from Express!' });
+});
+
+
 // 取得單字 from MongoDB
 app.get('/api/vocabulary', async (req, res) => {
   try {
