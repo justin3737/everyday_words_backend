@@ -3,10 +3,9 @@ const cors = require('cors');
 require('dotenv').config();
 
 const cron = require('node-cron');
-const { getRandomVocabulary, getB2vocabulary, getRandomVocabularyFromDB } = require('../services/vocabularyService');
+const { vocabularyGenerator, getRandomVocabularyFromDB, getVocabularyByWord } = require('../services/vocabularyService');
 const { addNote, getNotes } = require('../services/noteService');  // 新增這行
 
-const VocabularyModel = require('../models/Vocabulary');
 const connectDB = require('../db');  // 新增這行
 
 const app = express();
@@ -20,27 +19,29 @@ app.use(express.json());
 // 調用連接數據庫的函數
 connectDB();
 
-// 使用導入的模型，而不是重新定義
-const Vocabulary = VocabularyModel;
-
-// 添加一個測試路由來檢查環境變數
-app.get('/api/debug', (req, res) => {
-  res.json({
-    hasUri: !!process.env.MONGODB_URI,
-    envVars: {
-      // 不要在生產環境暴露實際的 URI
-      MONGODB_URI: process.env.MONGODB_URI ? '已設置' : '未設置',
-      NODE_ENV: process.env.NODE_ENV,
-      VERCEL: process.env.VERCEL
-    }
-  });
-});
-
-// 隨機取得單字 from MongoDB
+// 隨機取得多個單字 from MongoDB
 app.get('/api/randomVocabulary', async (req, res) => {
   try {
     const vocabularyList = await getRandomVocabularyFromDB();
     res.json({ content: vocabularyList });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// 根據單字查詢詞彙
+app.get('/api/vocabulary/:word', async (req, res) => {
+  try {
+    const word = req.params.word;
+    const vocabulary = await getVocabularyByWord(word);
+    console.log(vocabulary);
+    
+    if (!vocabulary) {
+      return res.status(404).json({ error: 'Vocabulary not found' });
+    }
+    
+    res.json(vocabulary);
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -82,40 +83,30 @@ app.use((err, req, res, next) => {
 });
 
 
-// 設置定時任務，每小時執行一次
-cron.schedule('0 * * * *', () => {
-  console.log('Running B2 vocabulary update task');
-  getB2vocabulary();
+// 設置定時任務，每5分鐘執行一次
+cron.schedule('*/5 * * * *', () => {
+  console.log('Running vocabulary update task');
+  vocabularyGenerator();
 });
 
-// getB2vocabulary from Anthropic API
-app.get('/api/getB2vocabulary', async (req, res) => {
+// 取得 anthropic 的詞彙
+app.get('/api/vocabularyGenerator', async (req, res) => {
   try {
-    const newVocabularyList = await getRandomVocabulary();
-
-    for (const item of newVocabularyList.content) {
-      const existingWord = await Vocabulary.findOne({ word: { $regex: new RegExp('^' + item.word + '$', 'i') } });
-      if (!existingWord) {
-        const newVocabulary = new Vocabulary(item);
-        await newVocabulary.save()
-      }
-    }
-
-    const allVocabulary = await Vocabulary.find();
-
+    const allVocabulary = await vocabularyGenerator();
     res.json({ 
       content: allVocabulary
     });
   } catch (error) {
-    console.error('Error in getB2vocabulary:', error);
+    console.error('Error in vocabularyGenerator:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
   // 服務器啟動時立即執行一次更新任務
-  getB2vocabulary();
+  vocabularyGenerator();
 });
 
 module.exports = app;

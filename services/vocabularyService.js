@@ -1,9 +1,9 @@
 const { callAnthropicAPI } = require('./anthropicService');
 const Vocabulary = require('../models/Vocabulary');
 
-// get random vocabulary from Anthropic API
-async function getRandomVocabulary() {
-  const prompt = `請提供5個隨機的B2級別英語單詞，並為每個單詞提供以下信息：
+// get vocabulary from Anthropic API
+async function getVocabularyFromAnthropic() {
+  const prompt = `請提供5個隨機的C1級別英語單詞，並為每個單詞提供以下信息：
   - 這個詞本身。
   - 相應的 KK 音標。
   - 單詞的中文翻譯。
@@ -52,32 +52,57 @@ async function getRandomVocabulary() {
   }
 }
 
-async function getB2vocabulary() {
+// 抽出共用的查詢
+function createExactWordRegex(word) {
+  return new RegExp('^' + word + '$', 'i');
+}
+
+// 查詢單字
+async function findWordInDB(word) {
+  return await Vocabulary.findOne({ 
+    word: { $regex: createExactWordRegex(word) }
+  });
+}
+
+// 詞彙生成器 from Anthropic API
+async function vocabularyGenerator() {
   try {
-    const newVocabularyList = await getRandomVocabulary();
+    const newVocabularyList = await getVocabularyFromAnthropic();
     
     for (const item of newVocabularyList.content) {
-      const existingWord = await Vocabulary.findOne({ word: { $regex: new RegExp('^' + item.word + '$', 'i') } });
+      const existingWord = await findWordInDB(item.word);
       if (!existingWord) {
+        console.log(`新增單字: ${item.word}`);
         const newVocabulary = new Vocabulary(item);
         await newVocabulary.save();
       }
     }
 
-    console.log('B2 vocabulary updated successfully');
+    return await Vocabulary.find();
   } catch (error) {
-    console.error('Error updating B2 vocabulary:', error);
+    console.error('Error updating vocabulary:', error);
+    throw error;
   }
 }
 
+// 隨機取得10個詞彙
 async function getRandomVocabularyFromDB() {
   const count = await Vocabulary.countDocuments();
   const random = Math.floor(Math.random() * count);
   return await Vocabulary.find().skip(random).limit(10);
 }
 
+// 根據單字查詢詞彙
+async function getVocabularyByWord(word) {
+  const result = await findWordInDB(word);
+  if (!result) {
+    throw new Error(`找不到單字: ${word}`);
+  }
+  return result;
+}
+
 module.exports = {
-  getRandomVocabulary,
-  getB2vocabulary,
-  getRandomVocabularyFromDB
+  vocabularyGenerator,
+  getRandomVocabularyFromDB,
+  getVocabularyByWord  // 添加新的導出函數
 };
