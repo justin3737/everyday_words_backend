@@ -43,7 +43,16 @@ async function getNotes() {
   }));
 }
 
+async function deleteNote(word) {
+  const result = await NoteModel.findOneAndDelete({ word });
+  if (!result) {
+    throw new Error('找不到此單字');
+  }
+  return '單字已成功刪除';
+}
+
 module.exports = {
   addNote,
-  getNotes
+  getNotes,
+  deleteNote
 };

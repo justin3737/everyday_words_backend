@@ -4,9 +4,9 @@ require('dotenv').config();
 
 const cron = require('node-cron');
 const { vocabularyGenerator, getRandomVocabularyFromDB, getVocabularyByWord } = require('../services/vocabularyService');
-const { addNote, getNotes } = require('../services/noteService');  // 新增這行
+const { addNote, getNotes, deleteNote } = require('../services/noteService');
 
-const connectDB = require('../db');  // 新增這行
+const connectDB = require('../db');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -73,6 +73,21 @@ app.get('/api/notes', async (req, res) => {
   } catch (error) {
     console.error('Error reading notes:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// 添加 deleteNote API
+app.delete('/api/notes/:word', async (req, res) => {
+  try {
+    const word = req.params.word;
+    const result = await deleteNote(word);
+    res.json({ message: result });
+  } catch (error) {
+    if (error.message === '找不到此單字') {
+      res.status(444).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'Internal server error' });
+    }
   }
 });
 

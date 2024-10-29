@@ -104,5 +104,5 @@ async function getVocabularyByWord(word) {
 module.exports = {
   vocabularyGenerator,
   getRandomVocabularyFromDB,
-  getVocabularyByWord  // 添加新的導出函數
+  getVocabularyByWord
 };
