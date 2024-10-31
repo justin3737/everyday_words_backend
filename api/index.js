@@ -18,7 +18,11 @@ const port = process.env.PORT || 3000;
 
 // 啟用 CORS
 app.use(cors({
-  origin: [process.env.BASE_URL, process.env.FRONT_END_URL],
+  origin: [
+    process.env.BASE_URL, 
+    process.env.FRONT_END_URL,
+    'https://everyday-words-backend-git-main-justin3737s-projects.vercel.app'
+  ],
   credentials: true
 }));
 
