@@ -11,7 +11,7 @@ handler.use(passport.session());
 handler.get(
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    res.redirect('/words');
+    res.redirect('/word');
   }
 );
 
