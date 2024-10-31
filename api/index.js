@@ -1,5 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const session = require('express-session');
+const passport = require('../config/passport');
+
 require('dotenv').config();
 
 const cron = require('node-cron');
@@ -13,11 +16,59 @@ const port = process.env.PORT || 3000;
 
 // 啟用 CORS
 app.use(cors({
-  origin: process.env.BASE_URL,
+  origin: [process.env.BASE_URL, process.env.FRONT_END_URL],
   credentials: true
 }));
 
 app.use(express.json());
+
+// 添加 session 中間件
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your-secret-key',
+  resave: false,
+  saveUninitialized: false
+}));
+
+// 初始化 Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// 添加 Google 認證路由
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+app.get('/auth/google/callback',
+  passport.authenticate('google', {
+    failureRedirect: process.env.FRONT_END_URL + '/'
+  }),
+  (req, res) => {
+    const user = req.user;
+    req.session.user = {
+      name: user.displayName,
+      email: user.emails[0].value,
+      avatar: user.photos[0].value
+    };
+    console.log(req.session.user);
+    
+    res.redirect(process.env.FRONT_END_URL + '/word');
+  }
+);
+
+// 驗證 mi
+const authenticateUser = (req, res, next) => {
+  if (req.session.user) {
+    next();
+  } else {
+    res.status(401).json({ error: 'Please login first' });
+  }
+};
+
+// 登出路由
+app.get('/auth/logout', (req, res) => {
+  req.logout();
+  res.redirect(process.env.FRONT_END_URL + '/');
+});
 
 // 調用連接數據庫的函數
 connectDB();
@@ -101,7 +152,7 @@ app.use((err, req, res, next) => {
 });
 
 
-// 設置定時任務，每5分鐘執行一次
+// 設置定時任務，每5分執行一次
 cron.schedule('*/5 * * * *', () => {
   console.log('Running vocabulary update task');
   vocabularyGenerator();
