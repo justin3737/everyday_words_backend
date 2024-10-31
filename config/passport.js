@@ -8,8 +8,6 @@ passport.use(new GoogleStrategy({
     callbackURL: `${process.env.BASE_URL}/auth/google/callback`
   },
   function(accessToken, refreshToken, profile, cb) {
-  // `profile` 物件包含了使用者的 `displayName` 和 `emails` 等資訊
-  console.log(profile); // 用於調試，可以看到完整的 profile 資料
     return cb(null, profile);
   }
 ));

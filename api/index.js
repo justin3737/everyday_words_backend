@@ -8,6 +8,8 @@ require('dotenv').config();
 const cron = require('node-cron');
 const { vocabularyGenerator, getRandomVocabularyFromDB, getVocabularyByWord } = require('../services/vocabularyService');
 const { addNote, getNotes, deleteNote } = require('../services/noteService');
+const authService = require('../services/authService');
+const { authenticateUser } = require('../middleware/auth');
 
 const connectDB = require('../db');
 
@@ -42,33 +44,11 @@ app.get('/auth/google/callback',
   passport.authenticate('google', {
     failureRedirect: process.env.FRONT_END_URL + '/'
   }),
-  (req, res) => {
-    const user = req.user;
-    req.session.user = {
-      name: user.displayName,
-      email: user.emails[0].value,
-      avatar: user.photos[0].value
-    };
-    console.log(req.session.user);
-    
-    res.redirect(process.env.FRONT_END_URL + '/word');
-  }
+  authService.handleGoogleCallback
 );
 
-// 驗證 mi
-const authenticateUser = (req, res, next) => {
-  if (req.session.user) {
-    next();
-  } else {
-    res.status(401).json({ error: 'Please login first' });
-  }
-};
-
 // 登出路由
-app.get('/auth/logout', (req, res) => {
-  req.logout();
-  res.redirect(process.env.FRONT_END_URL + '/');
-});
+app.get('/auth/logout', authService.handleLogout);
 
 // 調用連接數據庫的函數
 connectDB();
