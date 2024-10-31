@@ -77,7 +77,8 @@ async function vocabularyGenerator() {
         await newVocabulary.save();
       }
     }
-
+    const count = await Vocabulary.countDocuments();
+    console.log('目前共有', count, '個單字');
     return await Vocabulary.find();
   } catch (error) {
     console.error('Error updating vocabulary:', error);

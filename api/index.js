@@ -108,12 +108,19 @@ cron.schedule('*/5 * * * *', () => {
 app.get('/api/vocabularyGenerator', async (req, res) => {
   try {
     const allVocabulary = await vocabularyGenerator();
-    res.json({ 
-      content: allVocabulary
-    });
+    if (!allVocabulary || allVocabulary.length === 0) {
+      return res.status(404).json({ error: 'No vocabulary generated' });
+    }
+    res.json({ content: allVocabulary });
   } catch (error) {
     console.error('Error in vocabularyGenerator:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    if (error.message === 'API rate limit exceeded') {
+      res.status(429).json({ error: error.message });
+    } else if (error.message === 'Invalid response from AI service') {
+      res.status(502).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'Internal server error' });
+    }
   }
 });
 
