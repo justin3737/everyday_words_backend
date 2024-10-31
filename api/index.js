@@ -12,7 +12,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // 啟用 CORS
-app.use(cors());
+app.use(cors({
+  origin: process.env.BASE_URL,
+  credentials: true
+}));
 
 app.use(express.json());
 
