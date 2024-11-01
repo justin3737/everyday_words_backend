@@ -1,7 +1,7 @@
 const { callAnthropicAPI } = require('./anthropicService');
 const Vocabulary = require('../models/Vocabulary');
 
-// get vocabulary from Anthropic API
+// 從 Anthropic API 獲取單字
 async function getVocabularyFromAnthropic() {
   const prompt = `請提供5個隨機的C1級別英語單詞，並為每個單詞提供以下信息：
   - 這個詞本身。
@@ -52,58 +52,46 @@ async function getVocabularyFromAnthropic() {
   }
 }
 
-// 抽出共用的查詢
+// 創建精確的單字正則表達式
 function createExactWordRegex(word) {
   return new RegExp('^' + word + '$', 'i');
 }
 
-// 查詢單字
+// 在數據庫中查找單字
 async function findWordInDB(word) {
   return await Vocabulary.findOne({ 
     word: { $regex: createExactWordRegex(word) }
   });
 }
 
-// 詞彙生成器 from Anthropic API
-async function vocabularyGenerator() {
-  try {
-    const newVocabularyList = await getVocabularyFromAnthropic();
-    
-    for (const item of newVocabularyList.content) {
-      const existingWord = await findWordInDB(item.word);
-      if (!existingWord) {
-        console.log(`新增單字: ${item.word}`);
-        const newVocabulary = new Vocabulary(item);
-        await newVocabulary.save();
-      }
-    }
-    const count = await Vocabulary.countDocuments();
-    console.log('目前共有', count, '個單字');
-    return await Vocabulary.find();
-  } catch (error) {
-    console.error('Error updating vocabulary:', error);
-    throw error;
-  }
+// 保存新的單字
+async function saveNewVocabulary(vocabularyData) {
+  const newVocabulary = new Vocabulary(vocabularyData);
+  return await newVocabulary.save();
 }
 
-// 隨機取得10個詞彙
-async function getRandomVocabularyFromDB() {
+// 獲取單字總數
+async function getVocabularyCount() {
+  return await Vocabulary.countDocuments();
+}
+
+// 獲取所有單字
+async function getAllVocabulary() {
+  return await Vocabulary.find();
+}
+
+// 獲取隨機單字
+async function getRandomVocabulary(limit = 10) {
   const count = await Vocabulary.countDocuments();
   const random = Math.floor(Math.random() * count);
-  return await Vocabulary.find().skip(random).limit(10);
-}
-
-// 根據單字查詢詞彙
-async function getVocabularyByWord(word) {
-  const result = await findWordInDB(word);
-  if (!result) {
-    throw new Error(`找不到單字: ${word}`);
-  }
-  return result;
+  return await Vocabulary.find().skip(random).limit(limit);
 }
 
 module.exports = {
-  vocabularyGenerator,
-  getRandomVocabularyFromDB,
-  getVocabularyByWord
+  getVocabularyFromAnthropic,
+  findWordInDB,
+  saveNewVocabulary,
+  getVocabularyCount,
+  getAllVocabulary,
+  getRandomVocabulary
 };

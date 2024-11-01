@@ -1,6 +1,6 @@
 const NoteModel = require('../models/Note');
 
-// 驗證筆記數據的輔助函數
+// 驗證筆記數據的輔助函數 
 function isValidNoteData(data) {
   return (
     data &&
@@ -16,6 +16,7 @@ function isValidNoteData(data) {
   );
 }
 
+// 新增筆記
 async function addNote(noteData) {
   if (!isValidNoteData(noteData)) {
     throw new Error('Invalid note data');
@@ -32,6 +33,7 @@ async function addNote(noteData) {
   return 'Note added successfully';
 }
 
+// 查詢筆記
 async function getNotes() {
   const notes = await NoteModel.find();
   return notes.map(note => ({

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// 定義單字模型
 const vocabularySchema = new mongoose.Schema({
   word: String,
   phonetic: String,
@@ -11,6 +12,7 @@ const vocabularySchema = new mongoose.Schema({
   }]
 });
 
+// 創建單字模型
 const Vocabulary = mongoose.model('Vocabulary', vocabularySchema);
 
 module.exports = Vocabulary;
