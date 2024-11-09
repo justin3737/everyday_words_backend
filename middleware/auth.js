@@ -2,12 +2,20 @@ const jwt = require("jsonwebtoken");
 const { handleErrorAsync, appError } = require("./errorHandler");
 const User = require("../models/User");
 
-const generateJwtToken = async function (userId = "") {
+const generateJwtToken = async function (user = null) {
   let token = "";
-  if (userId) {
-    token = jwt.sign({ id: userId }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES
-    });
+  if (user) {
+    token = jwt.sign(
+      { 
+        id: user._id,
+        email: user.email,
+        name: user.name 
+      }, 
+      process.env.JWT_SECRET, 
+      {
+        expiresIn: process.env.JWT_EXPIRES
+      }
+    );
   }
   return token;
 };

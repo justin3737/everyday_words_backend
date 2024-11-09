@@ -4,12 +4,11 @@
  * @returns {object} http 回傳的內容
  * @returns {string} http 回傳的message
  */
-const getHttpResponse = ({ data = null, message = 'success', errors = null }) => {
+const getHttpResponse = ({ success = true, token = null, user = null }) => {
   return {
-    status: 'success',
-    data,
-    message,
-    errors
+    success,
+    token,
+    user
   };
 };
 
