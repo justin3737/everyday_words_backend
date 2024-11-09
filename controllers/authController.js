@@ -63,9 +63,54 @@ const handleLogin = async (req, res) => {
   }
 };
 
+// 處理註冊
+const handleRegister = async (req, res) => {
+  try {
+    const { email, password, name } = req.body;
+    
+    // 檢查信箱是否已被使用
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ success: false, message: '此信箱已被註冊' });
+    }
+
+    // 密碼加密
+    const bcrypt = require('bcrypt');
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // 建立新用戶
+    const newUser = await User.create({
+      email,
+      password: hashedPassword,
+      name
+    });
+
+    // 產生 JWT token
+    const token = await generateJwtToken(newUser);
+    if (!token) {
+      return next(appError(400, "40003", "token 建立失敗"));
+    }
+
+    res.status(201).json(getHttpResponse({
+      token,
+      user: {
+        id: newUser._id,
+        email: newUser.email,
+        name: newUser.name
+      }
+    }));
+
+  } catch (error) {
+    console.error('Register error:', error);
+    res.status(500).json({ success: false, message: '註冊過程發生錯誤' });
+  }
+};
+
 module.exports = {
   handleGoogleAuth,
   handleGoogleCallback,
   handleLogout,
-  handleLogin
+  handleLogin,
+  handleRegister
 }; 
