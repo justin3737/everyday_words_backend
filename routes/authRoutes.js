@@ -17,4 +17,7 @@ router.get('/google/callback',
 
 router.get('/logout', authController.handleLogout);
 
+// 添加本地登入路由
+router.post('/login', authController.handleLogin);
+
 module.exports = router;

@@ -4,7 +4,7 @@ const express = require('express');
 const connectDB = require('./db');
 const setupMiddleware = require('./middleware/index');
 const setupRoutes = require('./routes');
-const errorHandler = require('./middleware/errorHandler');
+const { errorHandlerMainProcess } = require('./middleware/errorHandler');
 const { initCronJobs } = require('./services/cronService');
 
 const app = express();
@@ -20,7 +20,7 @@ connectDB();
 setupRoutes(app);
 
 // 錯誤處理
-app.use(errorHandler);
+app.use(errorHandlerMainProcess);
 
 // 啟動伺服器
 app.listen(port, () => {
