@@ -15,7 +15,7 @@ const addNote = async (req, res) => {
       word
     });
     
-    res.status(201).json({ success: true, message: '筆記已成功新增' });
+    res.status(201).json({ success: true, message: '筆記已成功新增', data: newNote });
   } catch (error) {
     console.error('Add note error:', error);
     if (error.message === 'Vocabulary not found') {
@@ -31,10 +31,11 @@ const addNote = async (req, res) => {
 // 查詢筆記
 const getNotes = async (req, res) => {
   try {
-    // req.user 會由 isAuth 中間件提供
     const userId = req.user._id;
     const notes = await noteService.getNotes(userId);
-    res.json({ content: notes });
+    const vocabularyList = notes.map(note => note.vocabulary);
+    
+    res.json({ data: vocabularyList });
   } catch (error) {
     console.error('Error reading notes:', error);
     res.status(500).json({ error: 'Internal server error' });
