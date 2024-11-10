@@ -1,21 +1,20 @@
 const mongoose = require('mongoose');
 
-// 定義範例模型
-const exampleSchema = new mongoose.Schema({
-  sentence: String,
-  translation: String
-});
-
-// 定義筆記模型
 const noteSchema = new mongoose.Schema({
-  word: { type: String, required: true, unique: true },
-  phonetic: String,
-  translation: String,
-  definition: String,
-  examples: [exampleSchema]
+  vocabulary: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Vocabulary',
+    required: true
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  }
+}, {
+  timestamps: true  // 這會自動創建 createdAt 和 updatedAt
 });
 
-// 創建筆記模型
 const Note = mongoose.model('Note', noteSchema);
 
 module.exports = Note;

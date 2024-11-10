@@ -1,56 +1,66 @@
 const NoteModel = require('../models/Note');
+const VocabularyModel = require('../models/Vocabulary');
 
-// 驗證筆記數據的輔助函數 
-function isValidNoteData(data) {
-  return (
-    data &&
-    typeof data.word === 'string' &&
-    typeof data.phonetic === 'string' &&
-    typeof data.translation === 'string' &&
-    typeof data.definition === 'string' &&
-    Array.isArray(data.examples) &&
-    data.examples.every(example => 
-      typeof example.sentence === 'string' &&
-      typeof example.translation === 'string'
-    )
-  );
-}
-
-// 新增筆記
 async function addNote(noteData) {
-  if (!isValidNoteData(noteData)) {
-    throw new Error('Invalid note data');
+  // 先查詢 Vocabulary
+  const vocabulary = await VocabularyModel.findOne({ 
+    word: { $regex: new RegExp(`^${noteData.word}$`, 'i') }
+  });
+
+  if (!vocabulary) {
+    throw new Error('Vocabulary not found');
   }
 
-  // 檢查 word 是否已存在
-  const existingNote = await NoteModel.findOne({ word: noteData.word });
+  // 檢查是否已存在相同的筆記
+  const existingNote = await NoteModel.findOne({
+    vocabulary: vocabulary._id,
+    user: noteData.user
+  });
+
   if (existingNote) {
-    throw new Error('已加入過筆記');
+    throw new Error('Note already exists');
   }
 
-  const newNote = new NoteModel(noteData);
+  // 創建新筆記
+  const newNote = new NoteModel({
+    vocabulary: vocabulary._id,
+    user: noteData.user
+  });
+
   await newNote.save();
-  return 'Note added successfully';
+  return '筆記新增成功';
 }
 
-// 查詢筆記
-async function getNotes() {
-  const notes = await NoteModel.find();
-  return notes.map(note => ({
-    word: note.word,
-    phonetic: note.phonetic,
-    translation: note.translation,
-    definition: note.definition,
-    examples: note.examples
-  }));
-}
-
-async function deleteNote(word) {
-  const result = await NoteModel.findOneAndDelete({ word });
-  if (!result) {
-    throw new Error('找不到此單字');
+async function getNotes(userId) {
+  // Add validation for userId
+  if (!userId) {
+    throw new Error('User ID is required');
   }
-  return '單字已成功刪除';
+
+  const notes = await NoteModel.find({ user: userId })
+    .populate('vocabulary')
+    .populate('user', 'name email')
+    .lean();
+  
+  // Add additional validation to ensure notes and their properties exist
+  const validNotes = notes.filter(note => 
+    note && 
+    note.vocabulary != null && 
+    note._id != null
+  );
+  
+  return validNotes;
+}
+
+async function deleteNote(noteId, userId) {
+  const note = await NoteModel.findOne({ _id: noteId, user: userId });
+  
+  if (!note) {
+    throw new Error('Note not found');
+  }
+
+  await note.deleteOne();
+  return '筆記已成功刪除';
 }
 
 module.exports = {
