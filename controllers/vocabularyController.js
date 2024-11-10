@@ -20,8 +20,8 @@ async function generateVocabulary(req, res) {
   }
 }
 
-// 隨機查詢單字
-async function getRandomVocabulary(req, res) {
+// 查詢單字列表
+async function getVocabulary(req, res) {
   try {
     const vocabulary = await vocabularyService.getRandomVocabulary(10);
     res.json(vocabulary);
@@ -48,6 +48,6 @@ async function getVocabularyByWord(req, res) {
 
 module.exports = {
   generateVocabulary,
-  getRandomVocabulary,
+  getVocabulary,
   getVocabularyByWord
 }; 
