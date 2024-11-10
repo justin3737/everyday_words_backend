@@ -52,14 +52,26 @@ async function getNotes(userId) {
   return validNotes;
 }
 
-async function deleteNote(noteId, userId) {
-  const note = await NoteModel.findOne({ _id: noteId, user: userId });
+async function deleteNote(word, userId) {
+  // 先查詢單字
+  const vocabulary = await VocabularyModel.findOne({ 
+    word: { $regex: new RegExp(`^${word}$`, 'i') }
+  });
+
+  if (!vocabulary) {
+    throw new Error('Note not found');
+  }
+
+  // 查找並刪除筆記
+  const note = await NoteModel.findOneAndDelete({ 
+    vocabulary: vocabulary._id, 
+    user: userId 
+  });
   
   if (!note) {
     throw new Error('Note not found');
   }
 
-  await note.deleteOne();
   return '筆記已成功刪除';
 }
 

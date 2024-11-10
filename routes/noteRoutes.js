@@ -8,6 +8,6 @@ router.post('/', isAuth, noteController.addNote);
 // 查詢筆記
 router.get('/', isAuth, noteController.getNotes);
 // 刪除筆記
-router.delete('/:id', isAuth, noteController.deleteNote);
+router.delete('/:word', isAuth, noteController.deleteNote);
 
 module.exports = router; 

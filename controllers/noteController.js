@@ -44,11 +44,10 @@ const getNotes = async (req, res) => {
 // 刪除筆記
 const deleteNote = async (req, res) => {
   try {
-    const userId = req.user._id; // 從認證的用戶獲取 ID
-    const noteId = req.params.id;
+    const userId = req.user._id;
+    const word = req.params.word;
     
-    // 確保只能刪除自己的筆記
-    const note = await noteService.deleteNote(noteId, userId);
+    const note = await noteService.deleteNote(word, userId);
     
     if (!note) {
       return res.status(404).json({ success: false, message: '找不到該筆記或無權限刪除' });
@@ -56,6 +55,7 @@ const deleteNote = async (req, res) => {
     
     res.status(200).json({ success: true, message: '筆記已成功刪除' });
   } catch (error) {
+    console.error('Delete note error:', error);
     if (error.message === 'Note not found') {
       res.status(404).json({ error: '找不到此筆記' });
     } else if (error.message === 'Unauthorized') {
