@@ -7,7 +7,9 @@ function setupMiddleware(app) {
   app.use(cors({
     origin: [
       process.env.BASE_URL, 
-      process.env.FRONT_END_URL
+      process.env.FRONT_END_URL,
+      process.env.MONGODB_URI,
+      process.env.GOOGLE_CLIENT_ID
     ],
     credentials: true
   }));
